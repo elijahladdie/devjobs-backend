@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import PostRouter from "./routes/blog.route";
+import router from "./routes/index";
+import { responseError } from "./utils/response.util";
 
 export const prisma = new PrismaClient();
 
@@ -11,11 +12,11 @@ const main = async () => {
     app.use(express.json());
 
     // Register API routes
-    app.use("/api/v1/post", PostRouter);
+    app.use(router);
 
     // Catch unregistered routes
     app.all("*", (req: Request, res: Response) => {
-        res.status(404).json({ error: `Route ${req.originalUrl} not found` });
+      return  responseError(res, 404, `Route ${req.originalUrl} not found`);
     });
 
     app.listen(port, () => {
