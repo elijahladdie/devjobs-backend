@@ -12,7 +12,7 @@ export const signToken = (userData: userData): string => {
             email,
             username,
         },
-        "secret",
+        process.env.APP_SECRET as string,
         { expiresIn: process.env.EXPIRE_IN as string }
     );
     return token;
@@ -20,7 +20,7 @@ export const signToken = (userData: userData): string => {
 
 export const verify = (token: string): userData | null => {
     try {
-        const decoded = jwt.verify(token, "secret") as userData;
+        const decoded = jwt.verify(token, process.env.APP_SECRET as string) as userData;
         return decoded;
     } catch (err) {
         console.error("Error verifying token:", err);
