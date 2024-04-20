@@ -7,11 +7,10 @@ interface ApiResponse {
 }
 
 export const responseSuccess = (res: Response, status_code: number, message: string, data?: any): Response<ApiResponse> => {
-  const { password, ...restdata } = data
   return res.status(200).json({
     resp_code: status_code,
     resp_msg: message,
-    restdata,
+    data,
   });
 };
 

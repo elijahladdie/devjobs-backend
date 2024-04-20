@@ -4,10 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only --exit-child src/server.ts db:migrate db:push",
-    "db:migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",
-    "db:push": "npx prisma db push"
-  },
+    "start": "npm run db:init &&   ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
+    "db:init": "npx prisma db push ",
+    "db:migrate": "npx prisma migrate dev && npx prisma generate",
+    "db:push": "npx prisma db push",
+    "db:seed": "ts-node prisma/jobSeed.ts"
+  }
+,  
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
