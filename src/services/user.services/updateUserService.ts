@@ -7,7 +7,7 @@ export const updateUserService = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id, 10);
         const {
-            password, existingData } = req.body;
+            password, ...existingData } = req.body;
 
         const existingUser = await prisma.user.findUnique({
             where: { id },
@@ -18,8 +18,12 @@ export const updateUserService = async (req: Request, res: Response) => {
         }
 
         const salt = await GenerateSalt();
-        let hashedPassword: any | undefined = await GeneratePassword(password, salt);
 
+        let hashedPassword: any | undefined;
+        if (password) {
+
+            hashedPassword = await GeneratePassword(password, salt);
+        }
         const updated = await prisma.user.update({
             where: {
                 id: Number(id),
